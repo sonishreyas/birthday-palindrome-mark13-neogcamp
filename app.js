@@ -76,7 +76,7 @@ function getNextDate(date)  {
     var year = date.year;
 
     var daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
-    if(month == 2){
+    if(month === 2){
         if(isLeapYear(year))    {
             if(day > 29)    {
                 day = 1;
@@ -129,8 +129,14 @@ function getPrevDate(date)  {
         }
     }
     else{
+
         if(day < 1 )    {
-            day = daysInMonth[month - 2];
+            if(month==1) {
+                day = daysInMonth[11];
+            } else{
+                day = daysInMonth[month - 2];
+            }
+            
             month--;
         }
     }
@@ -138,6 +144,7 @@ function getPrevDate(date)  {
         month = 12;
         year--;
     }
+
     return {
         day: day,
         month: month,
@@ -147,7 +154,7 @@ function getPrevDate(date)  {
 
 function getNextPalindromeDate(date)    {
     var ctr = 0;
-    var nextDate = getNextDate(date);
+    var nextDate = (date);
     while(1)    {
         ctr++;
         var flagPalindrome = checkPalindromeForAllDateFormats(nextDate);
@@ -175,17 +182,27 @@ function getPrevPalindromeDate(date)    {
 
 function checkPalindromeFinal(date) {
     var flagPalindrome = checkPalindromeForAllDateFormats(date);
+    var message;
     if (flagPalindrome) {
-        output.innerText = "Your birthday is a palindrome.🥳";
+        message = "Your birthday is a palindrome.🥳";
     }   else{
         var next = getNextPalindromeDate(date);
         var prev = getPrevPalindromeDate(date);
-        if (next[0] <= prev[0]) {
-            output.innerText = "The nearest palindrome date is " + next[1].day + "-" + next[1].month + "-" + next[1].year + ", you missed by " + next[0] + " days.";
+        if (Number(next[0]) <= Number(prev[0])) {
+            if(Number(next[0])===1) {
+                message = "The nearest next palindrome date is " + next[1].day + "-" + next[1].month + "-" + next[1].year + ", you missed by " + next[0] + " day.";
+            }   else{
+                message = "The nearest next palindrome date is " + next[1].day + "-" + next[1].month + "-" + next[1].year + ", you missed by " + next[0] + " days.";
+            }
         } else  {
-            output.innerText = "The nearest palindrome date is " + prev[1].day + "-" + prev[1].month + "-" + prev[1].year + ", you missed by " + prev[0] + " days.";
+            if(Number(prev[0])===1) {
+                message = "The nearest palindrome date is " + prev[1].day + "-" + prev[1].month + "-" + prev[1].year + ", you missed by " + prev[0] + " day.";
+            }   else{
+                message = "The nearest palindrome date is " + prev[1].day + "-" + prev[1].month + "-" + prev[1].year + ", you missed by " + prev[0] + " days.";
+            }
         }
     }
+    output.innerText = message;
 }
 
 
