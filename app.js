@@ -1,3 +1,7 @@
+const dateOfBirth = document.querySelector("#birthday");
+const checkButton = document.querySelector("#check-palindrome");
+const output = document.querySelector("#output");
+
 function reverseStr(str)    {
     return str.split('').reverse().join('');
 }
@@ -172,22 +176,27 @@ function getPrevPalindromeDate(date)    {
 function checkPalindromeFinal(date) {
     var flagPalindrome = checkPalindromeForAllDateFormats(date);
     if (flagPalindrome) {
-        console.log("Your birthday is a palindrome.🥳");
+        output.innerText = "Your birthday is a palindrome.🥳";
     }   else{
         var next = getNextPalindromeDate(date);
         var prev = getPrevPalindromeDate(date);
         if (next[0] <= prev[0]) {
-            console.log(next);
+            output.innerText = "The nearest palindrome date is " + next[1].day + "-" + next[1].month + "-" + next[1].year + ", you missed by " + next[0] + " days.";
         } else  {
-            console.log(prev);
+            output.innerText = "The nearest palindrome date is " + prev[1].day + "-" + prev[1].month + "-" + prev[1].year + ", you missed by " + prev[0] + " days.";
         }
     }
 }
 
-var date = {
-    day:1,
-    month: 03,
-    year: 2020
-}
 
-console.log(checkPalindromeFinal(date));
+
+function clickHandler(e)    {
+    var dateList = dateOfBirth.value.toString().split("-");
+    var date = {
+        day: Number(dateList[2]),
+        month: Number(dateList[1]),
+        year: Number(dateList[0])
+    }
+    checkPalindromeFinal(date);
+}
+checkButton.addEventListener("click",clickHandler);
